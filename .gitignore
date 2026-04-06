@@ -22,3 +22,6 @@ dist/
 # Specific files
 *scrap.py
 *scrap.ipynb
+
+# Temporary data
+data/
