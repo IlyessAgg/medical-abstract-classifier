@@ -18,3 +18,7 @@ dist/
 
 # macOS files
 .DS_Store
+
+# Specific files
+*scrap.py
+*scrap.ipynb
