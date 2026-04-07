@@ -25,3 +25,7 @@ dist/
 
 # Temporary data
 data/
+
+# MLflow
+mlflow.db
+mlruns/*

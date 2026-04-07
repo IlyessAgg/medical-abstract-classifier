@@ -61,12 +61,33 @@ def get_embeddings_chunked(texts, batch_size=16, max_length=512, stride=128):
 
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.dummy import DummyClassifier
 
-def train_classifier(X_train, y_train):
+def train_classifier(X_train, y_train, classifier="logistic", **params):
     """
-    Train a logistic regression classifier on embeddings.
-    Use class_weight='balanced' to handle imbalance.
+    Train a classifier based on the specified model type.
+
+    Parameters:
+    - X_train: The training data features.
+    - y_train: The training labels.
+    - classifier: The type of classifier to train ('logistic', 'svm', 'random_forest').
+    - params: Additional parameters for the classifier.
+
+    Returns:
+    - The trained classifier.
     """
-    logistic = LogisticRegression(max_iter=1000, class_weight='balanced', random_state=23)
-    logistic.fit(X_train, y_train)
-    return logistic
+    if classifier == "dummy":
+        clf = DummyClassifier(strategy="most_frequent")
+    elif classifier == "logistic":
+        clf = LogisticRegression(random_state=23, **params)
+    elif classifier == "svm":
+        clf = SVC(random_state=23, **params)
+    elif classifier == "random_forest":
+        clf = RandomForestClassifier(random_state=23, **params)
+    else:
+        raise ValueError(f"Unsupported classifier: {classifier}")
+    
+    clf.fit(X_train, y_train)
+    return clf
