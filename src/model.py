@@ -3,7 +3,13 @@ import torch
 import numpy as np
 
 
+# Load the tokenizer and model once at module level
 MODEL_NAME = "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model = AutoModel.from_pretrained(MODEL_NAME)
+model.eval()  # Set the model to evaluation mode
+
 
 def meanpooling(output, mask):
     embeddings = output[0] # First element of model_output contains all token embeddings
@@ -18,9 +24,6 @@ def get_embeddings(texts, batch_size=16):
     Use mean pooling over the last hidden state as the sentence embedding.
     Process in batches to avoid memory issues.
     """
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    model = AutoModel.from_pretrained(MODEL_NAME)
-    model.eval()
 
     all_embeddings = []
 
