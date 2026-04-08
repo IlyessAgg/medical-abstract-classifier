@@ -24,3 +24,48 @@ A basic classifier achieves an accuracy of around **50%**, which is better than 
 > MLflow UI displaying multiple runs for the text classification task with different classifiers and hyperparameters, including baselines.
 
 An interesting finding is that `logistic-no_weights` *(no class_weight balancing)* gets the best accuracy at **0.59** but `f1_maybe` of **0**. This reflects a common precision-recall tradeoff where the model optimizes for overall accuracy by focusing on majority classes while neglecting minority classes.
+
+
+## API Usage
+
+To interact with the model, you can use the `/predict` endpoint. Here's an example of how to use `curl` to make a POST request with a sample input:
+
+```bash
+curl -X 'POST' \
+  'http://localhost:8000/predict' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "question": "Do blood cells transport oxygen ?",
+  "context": "Red blood cells (RBCs), referred to as erythrocytes in academia and medical publishing, also known as red cells, erythroid cells, and rarely haematids, are the most common type of blood cell and the vertebrates principal means of delivering oxygen (O2) to the body tissues—via blood flow through the circulatory system."
+}'
+```
+This will return a predicted label (`yes`, `no`, or `maybe`) with the associated confidence score.
+
+> Be cautious of **unsupported** characters, such as line breaks in the context field, which will throw an error 422.
+
+## Project Structure
+
+Here's an overview of the project structure:
+
+```
+├── src/                      # Source code directory            
+│   ├── __init__.py
+│   ├── api.py                # FastAPI app and endpoint definitions
+│   ├── data.py               # Data loading and preprocessing
+│   ├── evaluate.py           # Evaluation metrics and reports
+│   ├── model.py              # Embeddings encoding and model training
+├── models/                   # Saved models and encoders
+├── data/                     # Data files (e.g., embeddings_train.npy)
+├── requirements.txt          # Python dependencies for the project
+├── Dockerfile                # Docker configuration for containerizing the app
+├── main.py                   # Entry point: runs the full training pipeline
+├── assets/                   # Images and other assets for the README
+└── README.md
+```
+
+## Tools Used
+
+- **HuggingFace**: For using pre-trained models and datasets (e.g., PubMedQA).
+- **MLflow**: For tracking and logging model training experiments.
+- **FastAPI**: To create the API for serving the model and making predictions.
+- **Docker**: For containerizing the application to simplify deployment.

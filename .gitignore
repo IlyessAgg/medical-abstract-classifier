@@ -29,3 +29,6 @@ data/
 # MLflow
 mlflow.db
 mlruns/*
+
+# Models
+*.joblib
