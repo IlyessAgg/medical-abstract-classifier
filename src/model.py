@@ -2,6 +2,11 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 import numpy as np
 
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.dummy import DummyClassifier
+
 
 # Load the tokenizer and model once at module level
 MODEL_NAME = "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
@@ -62,11 +67,6 @@ def get_embeddings_chunked(texts, batch_size=16, max_length=512, stride=128):
     """
     pass
 
-
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.dummy import DummyClassifier
 
 def train_classifier(X_train, y_train, classifier="logistic", **params):
     """
