@@ -1,9 +1,16 @@
 # Medical abstract classifier
+
 > Building a medical abstract classifier using [PubMed](https://pubmedqa.github.io/index.html) data.
+
+<div align="center">
 
 <p align="center">
   <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2JobDF0NWJuMnl2cXYyOG5pY2FuaTZvNHp0eGl1YnFieWl2ODY5bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6xjato9VF2mWSzStXN/giphy.gif" alt="Doctor's here" height=350/>
 </p>
+
+![CI](https://github.com/IlyessAgg/medical-abstract-classifier/workflows/CI/badge.svg)
+
+</div>
 
 The main goal of this project is to build something cool whilst learning new tools. Right now my environment is `WSL2` and I'm trying to use regular `.py` scripts instead of `.ipynb` notebooks.  
 Some tools I'd like to fiddle with are : *HuggingFace, MLflow, Docker, FastAPI, GitHub Actions.*
@@ -56,6 +63,10 @@ Here's an overview of the project structure:
 │   ├── model.py              # Embeddings encoding and model training
 ├── models/                   # Saved models and encoders
 ├── data/                     # Data files (e.g., embeddings_train.npy)
+├── .github/                  # GitHub configuration
+│   └── workflows/            # CI/CD workflows (e.g., ci.yml)
+├── tests/                    # Unit tests for data processing and pipeline
+│   └── test_data.py
 ├── requirements.txt          # Python dependencies for the project
 ├── Dockerfile                # Docker configuration for containerizing the app
 ├── main.py                   # Entry point: runs the full training pipeline
@@ -63,9 +74,15 @@ Here's an overview of the project structure:
 └── README.md
 ```
 
+## Continuous Integration
+
+This project uses **GitHub Actions** to automatically run linting (with `ruff`) and unit tests on every push and pull request.  
+Passing tests and style checks are indicated with the badge above.
+
 ## Tools Used
 
 - **HuggingFace**: For using pre-trained models and datasets (e.g., PubMedQA).
 - **MLflow**: For tracking and logging model training experiments.
 - **FastAPI**: To create the API for serving the model and making predictions.
 - **Docker**: For containerizing the application to simplify deployment.
+- **GitHub Actions**: Continuous Integration for tests and code quality.
