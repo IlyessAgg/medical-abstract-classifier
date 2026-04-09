@@ -1,31 +1,31 @@
 from src.data import preprocess, get_splits
 from collections import Counter
+from datasets import Dataset
+from sklearn.preprocessing import LabelEncoder
 
 def test_preprocess_output_lengths():
-    dataset = [
-        {
-            "question": "Is X effective ?",
-            "final_decision": "yes",
-            "context": {
-                "contexts": ["doc1", "doc2", "doc3"]
-            }
-        },
-        {
-            "question": "Does Y work ?",
-            "final_decision": "no",
-            "context": {
-                "contexts": ["doc1", "doc2"]
-            }
-        }
-    ]
+    data = {
+        "pubid": [1, 2],
+        "question": ["Is X effective?", "Does Y work?"],
+        "context": [{"contexts": ["doc1", "doc2", "doc3"]}, {"contexts": ["doc1", "doc2"]}],
+        "long_answer": ["answer1", "answer2"],
+        "final_decision": ["yes", "no"]
+    }
+
+    dataset = Dataset.from_dict(data)
+    
     texts, labels, encoder = preprocess(dataset)
     assert len(texts) == len(labels)
 
 
 def test_get_splits_sizes():
-    texts = ["text1", "text2", "text3", "text4", "text5", "text6", "text7", "text8"]
-    labels = ["yes", "yes", "yes", "no", "no", "no", "maybe", "maybe"]
-    X_train, X_test, y_train, y_test = get_splits(texts, labels, test_size=0.25)
+    texts = ["text1","text2","text3","text4","text5","text6","text7","text8","text9","text10","text11","text12"]
+    raw_labels = ["yes","yes","yes","yes","no","no","no","no","maybe","maybe","maybe","maybe"]
+
+    encoder = LabelEncoder()
+    labels = encoder.fit_transform(raw_labels)
+
+    X_train, X_test, y_train, y_test = get_splits(texts, labels)
 
     assert len(X_train) + len(X_test) == len(texts)
     assert len(y_train) + len(y_test) == len(labels)
